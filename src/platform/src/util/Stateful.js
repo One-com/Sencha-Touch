@@ -99,7 +99,7 @@ Ext.util.Stateful = Ext.extend(Ext.util.Observable, {
             
             this[this.persistanceProperty][fieldName] = value;
 
-            this.dirty = true;
+            this.setDirty();
 
             if (!this.editing) {
                 this.afterEdit();
@@ -154,8 +154,19 @@ Ext.util.Stateful = Ext.extend(Ext.util.Observable, {
         this.fields.each(function(field) {
             this.modified[field.name] = this[this.persistanceProperty][field.name];
         }, this);
+
+        if (this.innerOf) {
+            this.innerOf.setDirty();
+        }
     },
-    
+
+    unsetDirty: function() {
+        this.dirty = false;
+        this.editing = false;
+
+        delete this.modified;
+    },
+
     //<debug>
     markDirty : function() {
         throw new Error("Stateful: markDirty has been deprecated. Please use setDirty.");
@@ -183,11 +194,9 @@ Ext.util.Stateful = Ext.extend(Ext.util.Observable, {
                 this[this.persistanceProperty][field] = modified[field];
             }
         }
-        
-        this.dirty = false;
-        this.editing = false;
-        delete this.modified;
-        
+
+        this.unsetDirty();
+
         if (silent !== true) {
             this.afterReject();
         }
@@ -202,11 +211,8 @@ Ext.util.Stateful = Ext.extend(Ext.util.Observable, {
      * store of the change (defaults to false)
      */
     commit : function(silent) {
-        this.dirty = false;
-        this.editing = false;
-        
-        delete this.modified;
-        
+        this.unsetDirty();
+
         if (silent !== true) {
             this.afterCommit();
         }
