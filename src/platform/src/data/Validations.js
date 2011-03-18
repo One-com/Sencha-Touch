@@ -65,6 +65,9 @@ Ext.data.validations = {
      * @return {Boolean} True if the value passes validation
      */
     length: function(config, value) {
+        if (value === null && config.optional) {
+            return true;
+        }
         if (value == undefined) {
             return false;
         }
@@ -87,7 +90,7 @@ Ext.data.validations = {
      * @return {Boolean} True if the value passes the format validation
      */
     format: function(config, value) {
-        return !!(config.matcher && config.matcher.test(value));
+        return (value === null && config.optional) || !!(config.matcher && config.matcher.test(value));
     },
     
     /**
@@ -96,7 +99,7 @@ Ext.data.validations = {
      * @return {Boolean} True if the value is present in the list
      */
     inclusion: function(config, value) {
-        return config.list && config.list.indexOf(value) != -1;
+        return (value === null && config.optional) || config.list && config.list.indexOf(value) != -1;
     },
     
     /**
@@ -106,6 +109,6 @@ Ext.data.validations = {
      * @return {Boolean} True if the value is not present in the list
      */
     exclusion: function(config, value) {
-        return config.list && config.list.indexOf(value) == -1;
+        return (value === null && config.optional) || config.list && config.list.indexOf(value) == -1;
     }
 };
