@@ -283,6 +283,13 @@ Ext.data.Model = Ext.extend(Ext.util.Stateful, {
         var errors      = new Ext.data.Errors(),
             validations = this.validations,
             validators  = Ext.data.validations,
+            inners      = this.inners,
+            innerFn     = function (record) {
+                var errs = record.validate(deep);
+                if (!errs.isValid()) {
+                    errors.addAll(errs.items);
+                }
+            },
             length, validation, field, valid, type, i;
 
         if (validations) {
@@ -302,7 +309,13 @@ Ext.data.Model = Ext.extend(Ext.util.Stateful, {
                 }
             }
         }
-        
+
+        Ext.iterate(this.associations.map, function (key, value, scope) {
+            if (value.inner === true) {
+                this[key]().each(innerFn);
+            }
+        });
+
         return errors;
     },
     
