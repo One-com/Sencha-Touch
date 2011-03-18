@@ -364,6 +364,12 @@ Ext.data.Reader = Ext.extend(Object, {
                         });                        
                     }
 
+                    // If the association is an inner association, set an innerOf property that links to the parent model.
+                    if (association.inner) {
+                        store.data.each(function(associatedRecord) {
+                            associatedRecord.innerOf = record;
+                        });
+                    }
                 } else if (association.type == 'belongsTo') {
                     record[association.instanceName] = reader.read([associationData]).records[0];
                 }
