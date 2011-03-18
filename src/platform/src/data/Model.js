@@ -263,8 +263,8 @@ Ext.data.Model = Ext.extend(Ext.util.Stateful, {
         }
         
         this.set(data);
-        this.dirty = false;
-        
+        this.unsetDirty();
+
         if (this.getId()) {
             this.phantom = false;
         }
@@ -357,7 +357,7 @@ Ext.data.Model = Ext.extend(Ext.util.Stateful, {
                 //we need to make sure we've set the updated data here. Ideally this will be redundant once the
                 //ModelCache is in place
                 me.set(record.data);
-                record.dirty = false;
+                record.unsetDirty();
 
                 if (typeof successFn == 'function') {
                     successFn.call(scope, record, operation);
