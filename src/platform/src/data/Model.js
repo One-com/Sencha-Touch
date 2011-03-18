@@ -331,6 +331,9 @@ Ext.data.Model = Ext.extend(Ext.util.Stateful, {
      * @return {Ext.data.Model} The Model instance
      */
     save: function(options) {
+        if (this.innerOf) {
+            return this.innerOf.save(options);
+        }
         var me     = this,
             action = me.phantom ? 'create' : 'update';
         
