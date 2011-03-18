@@ -50,7 +50,34 @@ Ext.data.Writer = Ext.extend(Object, {
      * By default this method returns the data property on the record.
      */
     getRecordData: function(record) {
-        return record.data;
+        var data = Ext.apply({}, record.data);
+
+        // Remove properties with null values if they are set to be optional
+        Ext.iterate(data, function (fieldName, value) {
+            if (record.fields.map[fieldName] && record.fields.map[fieldName].optional === true && value === null) {
+                delete data[fieldName];
+            }
+        });
+
+        // Do deep serialization of inner Records
+        Ext.iterate(record.associations.map, function (name, association) {
+            if (association.inner === true) {
+                var innerStore = record[name]();
+                if (innerStore.getCount() > 0) {
+                    data[name] = [];
+                    innerStore.each(function (innerRecord) {
+                        var innerData = Ext.apply({}, this.getRecordData(innerRecord));
+                        // Remove foreign keys that aren't needed with denormalized databases
+                        innerRecord.associations.each(function (association) {
+                            delete innerData[association.foreignKey];
+                        });
+                        data[name].push(innerData);
+                    }, this);
+                }
+            }
+        }, this);
+
+        return data;
     }
 });
 
