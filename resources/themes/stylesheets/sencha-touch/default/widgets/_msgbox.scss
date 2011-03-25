@@ -1,8 +1,14 @@
+/**
+ * Includes default message box styles.
+ *
+ * @class Ext.MessageBox
+ * @xtype messagebox
+ */
 @mixin sencha-msgbox {
   div.x-sheet.x-msgbox {
     width: 15em;
     -webkit-box-shadow: rgba(#000, .4) 0 .1em .5em;
-    @include border-radius($panel-border-radius);
+    @if $include-border-radius { @include border-radius($panel-border-radius); }
     border: .15em solid $base-color;
     .x-toolbar-title {
       font-size: .9em;
@@ -35,7 +41,7 @@
     .x-button {
       min-width: 4.5em;
     }
-    
+
     .x-button-normal span {
       opacity: .7;
     }
@@ -43,7 +49,7 @@
   .x-msgbox-input {
     margin-top: .4em;
     -webkit-appearance: none;
-    @include border-radius(.2em);
+    @if $include-border-radius { @include border-radius(.2em); }
   }
 
   // TODO: Refactor along with Sheet

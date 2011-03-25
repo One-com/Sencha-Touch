@@ -1,18 +1,28 @@
-$loading-spinner-color: #fff !default;
+/**
+ * @global {color} [$loading-spinner-color=#aaa]
+ * Background-color for the bars in the loading spinner.
+ *
+ * @class Ext.LoadMask
+ */
+$loading-spinner-color: #aaa !default;
 
 // Private
 $loading-spinner-size: 1em;
 $loading-spinner-bar-width: .1em;
 $loading-spinner-bar-height: .25em;
 
+/**
+ * Includes default loading spinner styles (for dataviews).
+ *
+ * @class Ext.LoadMask
+ */
 @mixin sencha-loading-spinner {
   .x-loading-spinner {
-    margin: 1em auto .2em;
     font-size: 250%;
     height: $loading-spinner-size;
     width: $loading-spinner-size;
     position: relative;
-    
+
     -webkit-transform-origin: $loading-spinner-size/2 $loading-spinner-size/2;
 
     /* Shared Properties for all the bars */
@@ -23,7 +33,7 @@ $loading-spinner-bar-height: .25em;
       height: $loading-spinner-bar-height;
       top: 0;
       -webkit-transform-origin: $loading-spinner-bar-width/2 $loading-spinner-size/2;
-      @include border-radius($loading-spinner-bar-width/2);
+      @if $include-border-radius { @include border-radius($loading-spinner-bar-width/2); }
       content: " ";
     }
 

@@ -134,8 +134,10 @@ Ext.TabPanel = Ext.extend(Ext.Panel, {
     
     onRemove: function(cmp, autoDestroy) {
         // remove the tab from the tabBar
-        this.tabBar.remove(cmp.tab, autoDestroy);
-        this.tabBar.doLayout();
+        if (!this.destroying) {
+            this.tabBar.remove(cmp.tab, autoDestroy);
+            this.tabBar.doLayout();
+        }
     }
 });
 

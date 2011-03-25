@@ -159,7 +159,7 @@ Ext.form.Select = Ext.extend(Ext.form.Text, {
 
     // @private
     onOrientationChange: function() {
-        if (this.isActive && !Ext.is.Phone) {
+        if (this.listPanel && !this.listPanel.hidden && !Ext.is.Phone) {
             this.listPanel.showBy(this.el, false, false);
         }
     },
@@ -185,8 +185,6 @@ Ext.form.Select = Ext.extend(Ext.form.Text, {
             listPanel.showBy(this.el, 'fade', false);
             listPanel.down('#list').getSelectionModel().select(index != -1 ? index: 0, false, true);
         }
-
-        this.isActive = true;
     },
 
     // @private
@@ -201,8 +199,6 @@ Ext.form.Select = Ext.extend(Ext.form.Text, {
             out: true,
             scope: this
         });
-
-        this.isActive = false;
     },
 
     // @private
@@ -214,8 +210,6 @@ Ext.form.Select = Ext.extend(Ext.form.Text, {
             this.setValue(newValue);
             this.fireEvent('change', this, newValue);
         }
-
-        this.isActive = false;
     },
 
     // Inherited docs

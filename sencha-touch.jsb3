@@ -15,9 +15,9 @@
                 {"path": "src/platform/src/util/", "name": "AbstractManager.js"},
                 {"path": "src/platform/src/util/", "name": "DelayedTask.js"},
                 {"path": "src/platform/src/util/", "name": "GeoLocation.js"},
+                {"path": "src/platform/src/util/", "name": "Region.js"},
                 {"path": "src/platform/src/util/", "name": "Point.js"},
                 {"path": "src/platform/src/util/", "name": "Offset.js"},
-                {"path": "src/platform/src/util/", "name": "Region.js"},
                 {"path": "src/platform/src/util/", "name": "Template.js"},
                 {"path": "src/platform/src/util/", "name": "XTemplate.js"},
                 {"path": "src/platform/src/util/", "name": "Sorter.js"},
@@ -65,12 +65,12 @@
                 {"path": "src/platform/src/app/", "name": "ApplicationManager.js"}
             ]
         },
-        
+
         {
             "name": "Data Foundation",
             "id": "data-foundation",
             "target": "pkgs/platform/data-foundation.js",
-            "files": [            
+            "files": [
                 {"path": "src/platform/src/data/",         "name": "Batch.js"},
                 {"path": "src/platform/src/data/",         "name": "Model.js"},
                 {"path": "src/platform/src/data/",         "name": "Association.js"},
@@ -133,7 +133,7 @@
                 {"path": "src/platform/src/data/stores/",  "name": "XmlStore.js"}
             ]
         },
-        
+
         {
             "name"  : "Touch Core",
             "target": "pkgs/core.js",
@@ -154,7 +154,7 @@
 				{"path": "src/util/", "name": "EventRecorder.js"}
             ]
         },
-        
+
         {
             "name"  : "Touch Gestures",
             "target": "pkgs/gestures.js",
@@ -168,9 +168,9 @@
                 {"path": "src/gestures/", "name": "Swipe.js"},
                 {"path": "src/gestures/", "name": "Drag.js"},
                 {"path": "src/gestures/", "name": "Pinch.js"}
-            ]            
+            ]
         },
-        
+
         {
             "name"  : "Touch DOM",
             "target": "pkgs/dom.js",
@@ -207,9 +207,9 @@
                 {"path": "src/platform/src/layout/container/", "name": "AutoContainerLayout.js"},
                 {"path": "src/platform/src/layout/container/", "name": "FitLayout.js"},
                 {"path": "src/platform/src/layout/container/", "name": "CardLayout.js"},
-                {"path": "src/layout/container/",              "name": "BoxLayout.js"}                
+                {"path": "src/layout/container/",              "name": "BoxLayout.js"}
             ]
-        },    
+        },
         {
             "name": "Widgets",
             "target": "pkgs/widgets.js",
@@ -221,7 +221,7 @@
                 {"path": "src/widgets/",      "name": "Container.js"},
                 {"path": "src/platform/src/", "name": "Panel.js"},
                 {"path": "src/widgets/",      "name": "Panel.js"},
-                
+
                 {"path": "src/widgets/", "name": "Button.js"},
                 {"path": "src/widgets/", "name": "SegmentedButton.js"},
                 {"path": "src/platform/src/misc/", "name": "AbstractStoreSelectionModel.js"},
@@ -264,6 +264,15 @@
                 {"path": "src/widgets/form/", "name": "TextArea.js"},
                 {"path": "src/widgets/form/", "name": "DatePicker.js"}
             ]
+        },
+        {
+            "name"  : "Plugins",
+            "target": "pkgs/plugins.js",
+            "id"    : "plugins",
+            "files" : [
+                {"path": "src/plugins/list/", "name": "ListPaging.js"},
+                {"path": "src/plugins/list/", "name": "PullRefresh.js"}
+            ]
         }
     ],
     "builds": [
@@ -286,7 +295,8 @@
                 "core",
                 "gestures",
                 "widgets",
-                "layouts"
+                "layouts",
+                "plugins"
             ]
         }
     ],

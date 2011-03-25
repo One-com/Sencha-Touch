@@ -221,11 +221,11 @@ Ext.data.Reader = Ext.extend(Object, {
     read: function(response) {
         var data = response;
         
-        if (response) {
-            if (response.responseText) {
-                data = this.getResponseData(response);
-            }
-
+        if (response && response.responseText) {
+            data = this.getResponseData(response);
+        }
+        
+        if (data) {
             return this.readRecords(data);
         } else {
             return this.nullResultSet;

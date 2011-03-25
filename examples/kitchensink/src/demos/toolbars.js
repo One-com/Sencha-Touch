@@ -1,9 +1,9 @@
 (function() {
     var tapHandler = function(button, event) {
         var txt = "User tapped the '" + button.text + "' button.";
-        Ext.getCmp('toolbartxt').update(txt);
+        Ext.getCmp('toolbartxt').body.dom.innerHTML = txt;
     };
-    
+
     var buttonsGroup1 = [{
         text: 'Back',
         ui: 'back',
@@ -17,7 +17,7 @@
         ui: 'round',
         handler: tapHandler
     }];
-    
+
     var buttonsGroup2 = [{
         xtype: 'segmentedbutton',
         allowDepress: true,
@@ -31,24 +31,23 @@
         }, {
             text: 'Option 3',
             handler: tapHandler
-        }]    
+        }]
     }];
-    
+
     var buttonsGroup3 = [{
         text: 'Action',
         ui: 'action',
         handler: tapHandler
-    },
-    {
+    }, {
         text: 'Forward',
         ui: 'forward',
         handler: tapHandler
     }];
-    
+
     if (!Ext.is.Phone) {
         buttonsGroup1.push({xtype: 'spacer'});
         buttonsGroup2.push({xtype: 'spacer'});
-        
+
         var dockedItems = [new Ext.Toolbar({
             ui: 'light',
             dock: 'top',
@@ -73,7 +72,7 @@
             dock: 'bottom'
         }];
     }
-    
+
     demos.Toolbars = new Ext.Panel({
         id: 'toolbartxt',
         cls: 'card',

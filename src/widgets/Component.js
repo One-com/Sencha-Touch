@@ -559,34 +559,38 @@ Ext.Component = Ext.extend(Ext.lib.Component, {
      * Acceptable values are a Ext.Scroller configuration, 'horizontal', 'vertical', 'both', and false
      */
     setScrollable : function(config) {
-        if (!this.rendered) {
-            this.scroll = config;
+        var me = this,
+            direction;
+            
+        if (!me.rendered) {
+            me.scroll = config;
             return;
         }
 
-        Ext.destroy(this.scroller);
-        this.scroller = null;
+        Ext.destroy(me.scroller);
+        me.scroller = null;
+        
+        // Always reset getTargetEl. It will be changedb below if needed.
+        if (me.originalGetTargetEl) {
+            me.getTargetEl = me.originalGetTargetEl;
+        }
         
         if (config !== false) {
-            var direction = Ext.isObject(config) ? config.direction: config;
+            direction = Ext.isObject(config) ? config.direction: config;
             config = Ext.apply({},
             Ext.isObject(config) ? config: {}, {
 //                momentum: true,
                 direction: direction
             });
 
-            if (!this.scrollEl) {
-                this.scrollEl = this.getTargetEl().createChild();
-                this.originalGetTargetEl = this.getTargetEl;
-                this.getTargetEl = function() {
-                    return this.scrollEl;
-                };
+            if (!me.scrollEl) {
+                me.scrollEl = me.getTargetEl().createChild();
             }
-
-            this.scroller = (new Ext.util.ScrollView(this.scrollEl, config)).scroller;
-        }
-        else {
-            this.getTargetEl = this.originalGetTargetEl;
+            me.originalGetTargetEl = me.getTargetEl;
+            me.getTargetEl = function() {
+                return me.scrollEl;
+            };
+            me.scroller = (new Ext.util.ScrollView(me.scrollEl, config)).scroller;
         }
     },
 

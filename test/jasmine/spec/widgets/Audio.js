@@ -15,14 +15,14 @@ describe("Ext.Audio", function() {
         expect(audio.componentCls).toEqual('x-audio');
     });
     
-    describe("onRender", function() {
+    describe("after rendering", function() {
         beforeEach(function() {
-            audio.render(Ext.getBody());
+            audio.media = {
+                show: Ext.emptyFn,
+                hide: Ext.emptyFn
+            };
         });
         
-        it("should have media", function() {
-            expect(audio.media).toBeDefined();
-        });
         
         describe("onActivate", function() {
             it("should call the superclass onActivate", function() {
@@ -87,8 +87,7 @@ describe("Ext.Audio", function() {
                 Ext.supports.AudioTag = true;
 
                 audio = new Ext.Audio({
-                    url     : 'test.mp3',
-                    renderTo: Ext.getBody()
+                    url     : 'test.mp3'
                 });
                 
                 var config = {
@@ -107,8 +106,7 @@ describe("Ext.Audio", function() {
                 Ext.supports.AudioTag = false;
 
                 audio = new Ext.Audio({
-                    url     : 'test.mp3',
-                    renderTo: Ext.getBody()
+                    url     : 'test.mp3'
                 });
                 
                 var config = {

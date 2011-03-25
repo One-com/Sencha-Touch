@@ -36,11 +36,13 @@ Ext.Container = Ext.extend(Ext.lib.Container, {
         if (this.scroll) {
             this.fields = new Ext.util.MixedCollection();
 
-            this.fields.on({
-                add: this.onFieldAdd,
-                remove: this.onFieldRemove,
-                scope: this
-            });
+            if (!Ext.is.Blackberry) {
+                this.fields.on({
+                    add: this.onFieldAdd,
+                    remove: this.onFieldRemove,
+                    scope: this
+                });
+            }
 
             this.on({
                 add: this.onItemAdd,
@@ -48,7 +50,7 @@ Ext.Container = Ext.extend(Ext.lib.Container, {
                 scope: this
             });
         }
-        
+
         //<deprecated since="0.99">
         if (Ext.isDefined(this.animation)) {
             console.warn("Container: animation has been removed. Please use cardSwitchAnimation.");
@@ -63,10 +65,10 @@ Ext.Container = Ext.extend(Ext.lib.Container, {
         Ext.Container.superclass.afterRender.apply(this, arguments);
 
         if (this.scroller) {
-            if (Ext.is.Android && this.containsFormFields) {
+            if ((Ext.is.Android) && this.containsFormFields) {
                 this.scroller.setUseCssTransform(false);
             }
-            
+
             this.scroller.on('scrollstart', this.onFieldScrollStart, this);
         }
     },
@@ -99,7 +101,7 @@ Ext.Container = Ext.extend(Ext.lib.Container, {
     handleFieldEventListener: function(isAdding, item) {
         if (!this.fieldEventWrap)
             this.fieldEventWrap = {};
-            
+
         if (['textfield', 'passwordfield', 'emailfield',
              //<deprecated since=0.99>
              'textarea',
@@ -127,7 +129,9 @@ Ext.Container = Ext.extend(Ext.lib.Container, {
     },
 
     onFieldKeyUp: function(field, e) {
-        this.resetLastWindowScroll();
+        if (Ext.is.iOS || Ext.is.Desktop) {
+            this.resetLastWindowScroll();
+        }
     },
 
     onFieldBeforeFocus: function(field, e) {
@@ -157,8 +161,6 @@ Ext.Container = Ext.extend(Ext.lib.Container, {
 
         // Keep the window in the previous scroll position
         if (Ext.is.iOS) {
-//            window.scrollTo(windowScroll.x, windowScroll.y || -1);
-//        } else {
             window.scrollTo(windowScroll.x, windowScroll.y);
         }
 
@@ -166,64 +168,72 @@ Ext.Container = Ext.extend(Ext.lib.Container, {
     },
 
     onFieldFocus: function(field, e) {
+        if (!Ext.is.iOS && !Ext.is.Desktop) {
+            var dom = field.fieldEl.dom;
 
-        var scroller = this.getClosestScroller(),
-            containerRegion = Ext.util.Region.from(scroller.containerBox),
-            fieldRegion = field.fieldEl.getPageBox(true);
-
-        // Focus by mouse click or finger tap, or not iOS
-        if (this.focusingField == field || !Ext.is.iOS) {
-            if (Ext.is.iOS && window.pageYOffset == 0) {
-                window.scrollTo(0, 0);
-            }
-
-            var adjustment = new Ext.util.Offset();
-
-            if (fieldRegion.left < containerRegion.left) {
-                adjustment.x = containerRegion.left - fieldRegion.left;
-            }
-
-            if (fieldRegion.top < containerRegion.top) {
-                adjustment.y = containerRegion.top - fieldRegion.top;
-            }
-
-            if (!adjustment.isZero()) {
-                var windowScroll = this.getLastWindowScroll();
-
-                scroller.scrollBy(adjustment);
-
-                if (Ext.is.iOS) {
-                    window.scrollTo(windowScroll.x, windowScroll.y);
-                }
-
-                this.resetLastWindowScroll();
+            if (dom.scrollIntoViewIfNeeded) {
+                dom .scrollIntoViewIfNeeded(true);
             }
         }
-        // Focus by next / previous / tab
         else {
-            if (this.lastFocusedField) {
-                var deltaY = fieldRegion.top - this.lastFocusedField.fieldEl.getY(),
-                    offsetY = scroller.offset.y - deltaY,
-                    selfHandling = false;
+             var scroller = this.getClosestScroller(),
+                containerRegion = Ext.util.Region.from(scroller.containerBox),
+                fieldRegion = field.fieldEl.getPageBox(true);
 
-                if (!containerRegion.contains(fieldRegion) &&
-                    (offsetY != 0 || (offsetY == 0 && scroller.offset.y != 0))) {
-                    selfHandling = true;
+            // Focus by mouse click or finger tap, or not iOS
+            if (this.focusingField == field || !Ext.is.iOS) {
+                if (Ext.is.iOS && window.pageYOffset == 0) {
+                    window.scrollTo(0, 0);
                 }
 
-                if (offsetY > 0) {
-                    offsetY = 0;
+                var adjustment = new Ext.util.Offset();
+
+                if (fieldRegion.left < containerRegion.left) {
+                    adjustment.x = containerRegion.left - fieldRegion.left;
                 }
 
-                if (selfHandling) {
-                    this.adjustScroller(new Ext.util.Offset(
-                        scroller.offset.x, offsetY
-                    ));
+                if (fieldRegion.top < containerRegion.top) {
+                    adjustment.y = containerRegion.top - fieldRegion.top;
+                }
+
+                if (!adjustment.isZero()) {
+                    var windowScroll = this.getLastWindowScroll();
+
+                    scroller.scrollBy(adjustment);
+
+                    if (Ext.is.iOS) {
+                        window.scrollTo(windowScroll.x, windowScroll.y);
+                    }
+
+                    this.resetLastWindowScroll();
                 }
             }
-        }
+            // Focus by next / previous / tab
+            else {
+                if (this.lastFocusedField) {
+                    var deltaY = fieldRegion.top - this.lastFocusedField.fieldEl.getY(),
+                        offsetY = scroller.offset.y - deltaY,
+                        selfHandling = false;
 
-        this.resetLastWindowScroll();
+                    if (!containerRegion.contains(fieldRegion) &&
+                        (offsetY != 0 || (offsetY == 0 && scroller.offset.y != 0))) {
+                        selfHandling = true;
+                    }
+
+                    if (offsetY > 0) {
+                        offsetY = 0;
+                    }
+
+                    if (selfHandling) {
+                        this.adjustScroller(new Ext.util.Offset(
+                            scroller.offset.x, offsetY
+                        ));
+                    }
+                }
+            }
+
+            this.resetLastWindowScroll();
+        }
 
         this.lastFocusedField = field;
         this.focusedField = field;
@@ -290,10 +300,10 @@ Ext.Container = Ext.extend(Ext.lib.Container, {
         this.layout.setActiveItem(card, animation);
         return this;
     },
-    
+
     //<deprecated since=0.99>
     setCard: function() {
-        console.warn("Stateful: setCard has been deprecated. Please use setActiveItem.");
+        console.warn("Container: setCard has been deprecated. Please use setActiveItem.");
         this.setActiveItem.apply(this, arguments);
     },
     //</deprecated>

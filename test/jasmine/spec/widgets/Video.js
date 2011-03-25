@@ -3,7 +3,6 @@ describe("Ext.Video", function() {
     
     beforeEach(function() {
         video = new Ext.Video({
-            renderTo: Ext.getBody()
         });
     });
     
@@ -25,21 +24,17 @@ describe("Ext.Video", function() {
             video = new Ext.Video({
                 posterUrl : 'url'
             });
+            video.media = {
+                show: Ext.emptyFn
+            };
+            video.ghost = {
+                hide: Ext.emptyFn
+            };
+            video.play = Ext.emptyFn
         });
-        
-        it("should setup the posterUrl", function() {
-            expect(video.ghost).not.toBeDefined();
-            
-            video.render(Ext.getBody());
-            
-            expect(video.ghost).toBeDefined();
-        });
-        
+                
         describe("when onGhostTap", function() {
-            beforeEach(function() {
-                video.render(Ext.getBody());
-            });
-            
+                        
             it("should show media", function() {
                 spyOn(video.media, "show");
                 

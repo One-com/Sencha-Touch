@@ -44,6 +44,7 @@ Ext.gesture.Drag = Ext.extend(Ext.gesture.Touch, {
             if (this.isDragging(info) && this.fire('dragstart', e, info)) {
                 this.dragging = true;
                 this.lock('drag', 'dragstart', 'dragend');
+                this.fire('drag', e, info);
             }
         }
         else {

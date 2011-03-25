@@ -1283,7 +1283,11 @@ Ext.layout.BoxLayout = Ext.extend(Ext.layout.ContainerLayout, {
     // document these properties on their subclasses
     pack : 'start',
     align: 'center',
-    
+
+    notifyOwnerCtContainer: true,
+
+    fixedLayout: false,
+
     /**
      * @cfg {String} direction Specifies the direction in which child components are laid out. Defaults
      * to <tt>'normal'</tt>, which means they are laid out in the order they are added. You can use the

@@ -142,10 +142,18 @@ Ext.Anim = Ext.extend(Object, {
         el = Ext.get(el);
         config = config || {};
 
+
         var me = this,
             style = el.dom.style,
             property,
             after = config.after;
+
+        if (me.running[el.id]) {
+            me.onTransitionEnd(null, el, {
+                config: config,
+                after: after
+            });
+        }
 
         config = this.initConfig(el, config);
 
@@ -213,6 +221,11 @@ Ext.Anim = Ext.extend(Object, {
 
     onTransitionEnd: function(ev, el, o) {
         el = Ext.get(el);
+
+        if (this.running[el.id] === undefined) {
+            return;
+        }
+
         var style = el.dom.style,
             config = o.config,
             property,

@@ -11,7 +11,7 @@ and run this command:
 
 This builds an optimized application.css file, placing it in the twitter/resources/css directory.
 
-Note - to run the compass command you must have the Ruby language installed (if you're on OS X you already have it, 
+Note - to run the compass command you must have the Ruby language installed (if you're on OS X you already have it,
 if you're on windows it's easy to install - see http://rubyforge.org/frs/?group_id=167). Once you have ruby, open
 up a terminal window and type in:
 
@@ -39,13 +39,14 @@ $list_active_color: lighten($base-color, 10%);
 //@include sencha-carousel;
 //@include sencha-indexbar;
 @include sencha-list;
+@include sencha-list-paging;
+@include sencha-list-pullrefresh;
 @include sencha-layout;
 //@include sencha-form;
 //@include sencha-msgbox;
+@include sencha-loading-spinner;
 
 @include sencha-toolbar-ui('dark', darken($base-color, 15%));
-
-// @include pictos-button-icon()
 
 .x-item-selected {
     color: #fff !important;
@@ -60,19 +61,24 @@ body {
     border-right: 1px solid #444;
 }
 
-.search-item .action {
-    opacity: 0;
+.search-item {
+  width: 100%;
+  
+  .action {
+      opacity: 0;
+  }
+
+  .delete {
+      float: right;
+      color: #fff;
+      font-size: 0.7em;
+      padding: 5px 8px;
+      border-color: #555;
+      @include background-gradient($alert-color, 'glossy');
+  }
+  
 }
 
-.search-item .delete {
-    float: right;
-    color: #fff;
-    font-size: 0.7em;
-    padding: 5px 8px;
-    border-color: #555;
-    
-    @include linear-gradient(color-stops(#D17E84, #BD1421 24px));
-}
 
 .search-item-active .search-item .action {
     opacity: 1;
@@ -82,7 +88,7 @@ body {
 .navigation .x-panel-body {
     border-bottom: 1px solid rgba(0, 0, 0, 0.35);
     background: #eee;
-    
+
     .x-button {
       border-top: 1px solid rgba(255, 255, 255, 0.4);
       border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -90,13 +96,13 @@ body {
       padding: 0 8px;
       background: #eee;
       height: 48px;
-      
+
       span {
         line-height: 45px;
         color: #444;
         text-shadow: #fff 0 1px 0;
       }
-      
+
       &.x-button-pressed {
         color: #000;
         background-color: #fff;
@@ -123,89 +129,67 @@ body {
     border-right: 1px solid #000;
 }
 
-.timeline {
-    padding-top: 15px;
-    padding-bottom: 15px;
-    background-color: #ccc;
-}
-
 .timeline .tweet {
-    margin: 10px 20px 20px;
-    position: relative;
-    min-height: 100px;
-    overflow: hidden;
+    border: none;
+
+    .x-list-item-body {
+        @include display-box;
+        @include box-orient(horizontal);
+        overflow: hidden;
+    }
+
+    img {
+        padding: 2px;
+        width: 60px;
+        height: 60px;
+        background-color: #fff;
+    }
+
+    .tweet-bubble {
+        position: relative;
+        min-height: 100px;
+        margin-left: 15px;
+        overflow: hidden;
+        @include border-radius(6px);
+        background: #eee;
+        @include box-flex(1);
+    }
+
+    .x-tweetanchor {
+        width: 14px;
+        height: 14px;
+        background-color: #eee;
+        top: 20px;
+        left: 82px;
+        position: absolute;
+        -webkit-transform: rotate(45deg);
+    }
+
+    &.tweet-active .x-tweetanchor {
+        background-color: #111;
+    }
+
+    .tweet-content {
+        padding: 15px;
+        color: #444;
+    }
+
+    .tweet-content a {
+        color: #2578C1;
+    }
+
+    .tweet-content h2 {
+        font-weight: bold;
+        color: #111;
+    }
 }
 
-.x-tablet .tweet {
-  -webkit-transform: translate3d(0,0,0);
-}
-
-.timeline .tweet > img {
-    padding: 2px;
-    width: 60px;
-    height: 60px;
-    background-color: #fff;
-}
-
-.tweet {
-    @include display-box;
-    @include box-orient(horizontal);
-}
-
-.timeline .tweet-bubble {
-    position: relative;
-    min-height: 100px;
-    margin-left: 15px;
-    overflow: hidden;
-    -webkit-border-radius: 6px;
-    @include box-flex(1);
-
-}
-
-.tweet-bubble > div {
-    min-height:100px;
-    -webkit-border-radius: 4px;
-}
-
-.timeline .x-tweetanchor {
-    width: 14px;
-    height: 14px;
-    background-color: #eee;
-    top: 10px;
-    left: 68px;
-    position: absolute;
-    -webkit-transform: rotate(45deg);
-    
-//    setting z-index to -1 caused massive performance problems, commented out for now
-//    z-index: -1;
-}
-
-.timeline .loading-indicator, .no-searches {
+.no-searches {
     padding: 20px;
     text-align: center;
     color: #555;
 }
 
-.timeline .tweet-active .x-tweetanchor {
-    background-color: #111;
-}
-
-.timeline .tweet-content {
-    padding: 15px;
-    z-index: 1;
-    background: #eee;
-    color: #444;
-    text-shadow: #fff 0 1px 0;
-}
-
-.timeline .tweet-content a {
-    color: #2578C1;
-}
-
-.timeline .tweet-content h2 {
-    font-weight: bold;
-    color: #111;
-}
 
 .timeline .x-toolbar-actions {
     background-color: #111;
@@ -235,11 +219,11 @@ body {
     display: none;
 }
 
-.nextPage.x-loading {    
+.nextPage.x-loading {
     p.load {
         display: none;
     }
-    
+
     p.loading {
         display: block;
     }
@@ -268,4 +252,10 @@ body {
 .x-toolbar .x-input-search {
     width: 100%;
     font-size: 1.2em;
+}
+
+/* Manually disable background as we're not doing anything on tap */
+
+.x-list .x-list-item.x-item-pressed {
+  background: none transparent;
 }

@@ -15,7 +15,7 @@ Ext.setup({
                 allowDeselect: true
             },
             grouped: true,
-            indexBar: true,
+            indexBar: false,
 
             onItemDisclosure: {
                 scope: 'test',

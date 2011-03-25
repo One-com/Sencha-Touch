@@ -237,7 +237,7 @@ Ext.data.JsonReader = Ext.extend(Ext.data.Reader, {
             data = root;
         }
         
-        return Ext.data.XmlReader.superclass.extractData.call(this, data, returnRecords);
+        return Ext.data.JsonReader.superclass.extractData.call(this, data, returnRecords);
     },
 
     /**

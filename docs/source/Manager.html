@@ -16,10 +16,10 @@
     defaultPreventedMouseEvents: ['click'],
 
     clickMoveThreshold: 5,
-    
+
     init: function() {
-        this.targets = []; 
-        
+        this.targets = [];
+
         this.followTouches = [];
         this.currentGestures = [];
         this.currentTargets = [];
@@ -31,7 +31,7 @@
                 end: 'mouseup'
             });
         }
-        
+
         this.listenerWrappers = {
             start: Ext.createDelegate(this.onTouchStart, this),
             move: Ext.createDelegate(this.onTouchMove, this),
@@ -60,24 +60,24 @@
 
     attachListeners: function() {
         Ext.iterate(this.eventNames, function(key, name) {
-            document.body.addEventListener(name, this.listenerWrappers[key], false);
+            document.addEventListener(name, this.listenerWrappers[key], false);
         }, this);
 
         if (Ext.supports.Touch) {
             this.defaultPreventedMouseEvents.forEach(function(name) {
-                document.body.addEventListener(name, this.listenerWrappers['mouse'], true);
+                document.addEventListener(name, this.listenerWrappers['mouse'], true);
             }, this);
         }
     },
 
     detachListeners: function() {
         Ext.iterate(this.eventNames, function(key, name) {
-            document.body.removeEventListener(name, this.listenerWrappers[key], false);
+            document.removeEventListener(name, this.listenerWrappers[key], false);
         }, this);
 
         if (Ext.supports.Touch) {
             this.defaultPreventedMouseEvents.forEach(function(name) {
-                document.body.removeEventListener(name, this.listenerWrappers['mouse'], true);
+                document.removeEventListener(name, this.listenerWrappers['mouse'], true);
             }, this);
         }
     },
@@ -91,14 +91,13 @@
 
     onTouchStart: function(e) {
         var targets = [],
-            target = e.target,
-            me = this;
+            target = e.target;
 
         if (e.stopped === true) {
             return;
         }
 
-        if (!Ext.is.iOS) {
+        if (Ext.is.Android) {
             if (!(target.tagName && ['input', 'textarea', 'select'].indexOf(target.tagName.toLowerCase()) !== -1)) {
                 e.preventDefault();
             }
@@ -107,7 +106,7 @@
         if (this.isFrozen) {
             return;
         }
-        
+
         // There's already a touchstart without any touchend!
         // This used to happen on HTC Desire and HTC Incredible
         // We have to clean it up
@@ -116,18 +115,18 @@
         }
 
         this.locks = {};
-        
+
         this.currentTargets = [target];
-        
+
         while (target) {
             if (this.targets.indexOf(target) !== -1) {
                 targets.unshift(target);
             }
-            
+
             target = target.parentNode;
             this.currentTargets.push(target);
         }
-        
+
         this.startEvent = e;
         this.startPoint = Ext.util.Point.fromEvent(e);
         this.lastMovePoint = null;
@@ -136,16 +135,16 @@
     },
 
     onTouchMove: function(e) {
+        if (!Ext.is.Android) {
+            e.preventDefault();
+        }
+
         if (!this.startEvent) {
             return;
         }
 
         if (Ext.is.Desktop) {
             e.target = this.startEvent.target;
-        }
-
-        if (Ext.is.iOS) {
-            e.preventDefault();
         }
 
         if (this.isFrozen) {
@@ -180,10 +179,14 @@
      * @private
      */
     onTouchEnd: function(e) {
+        if (Ext.is.Blackberry) {
+            e.preventDefault();
+        }
+
         if (this.isFrozen) {
             return;
         }
-        
+
         var gestures = this.currentGestures.slice(0),
             ln = gestures.length,
             i, gesture, endPoint,
@@ -241,7 +244,7 @@
             if (e.stopped) {
                 break;
             }
-            
+
             this.handleTarget(targets[i], e, true);
         }
 
@@ -249,7 +252,7 @@
             if (e.stopped) {
                 break;
             }
-            
+
             this.handleTarget(targets[i], e, false);
         }
 
@@ -296,6 +299,7 @@
 
     addEventListener: function(target, eventName, listener, options) {
         target = Ext.getDom(target);
+        options = options || {};
 
         var targets = this.targets,
             name = this.getGestureName(eventName),
@@ -306,21 +310,21 @@
             gestures = [];
             Ext.Element.data(target, 'x-gestures', gestures);
         }
-        
+
         // <debug>
         if (!name) {
             throw new Error('Trying to subscribe to unknown event ' + eventName);
         }
         // </debug>
-        
+
         if (targets.indexOf(target) === -1) {
             this.targets.push(target);
         }
-        
+
         gesture = this.get(target.id + '-' + name);
-        
+
         if (!gesture) {
-            gesture = this.create(Ext.apply({}, options || {}, {
+            gesture = this.create(Ext.apply({}, options, {
                 target: target,
                 type: name
             }));
@@ -329,44 +333,44 @@
             // The line below is not needed, Ext.Element.data(target, 'x-gestures') still reference gestures
             // Ext.Element.data(target, 'x-gestures', gestures);
         }
-        
+
         gesture.addListener(eventName, listener);
-        
+
         // If there is already a finger down, then instantly start the gesture
         if (this.startedChangedTouch && this.currentTargets.contains(target) && !gesture.started && !options.subsequent) {
             this.startGesture(gesture);
             if (gesture.listenForStart) {
-                gesture.onTouchStart(this.startEvent, this.startedTouches[0]);                
+                gesture.onTouchStart(this.startEvent, this.startedTouches[0]);
             }
         }
     },
-    
+
     removeEventListener: function(target, eventName, listener) {
         target = Ext.getDom(target);
-        
+
         var name = this.getGestureName(eventName),
             gestures = Ext.Element.data(target, 'x-gestures') || [],
             gesture;
-            
+
         gesture = this.get(target.id + '-' + name);
-        
+
         if (gesture) {
             gesture.removeListener(eventName, listener);
 
             for (name in gesture.listeners) {
                 return;
             }
-            
+
             gesture.destroy();
             gestures.remove(gesture);
             Ext.Element.data(target, 'x-gestures', gestures);
         }
     },
-    
+
     getGestureName: function(ename) {
         return this.names && this.names[ename];
     },
-        
+
     registerType: function(type, cls) {
         var handles = cls.prototype.handles,
             i, ln;
@@ -374,13 +378,13 @@
         this.types[type] = cls;
 
         cls[this.typeName] = type;
-        
+
         if (!handles) {
             handles = cls.prototype.handles = [type];
         }
-        
+
         this.names = this.names || {};
-        
+
         for (i = 0, ln = handles.length; i < ln; i++) {
             this.names[handles[i]] = type;
         }
@@ -389,6 +393,7 @@
 
 Ext.regGesture = function() {
     return Ext.gesture.Manager.registerType.apply(Ext.gesture.Manager, arguments);
-};</pre>    
+};
+</pre>    
 </body>
 </html>

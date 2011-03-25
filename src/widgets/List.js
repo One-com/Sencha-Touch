@@ -175,6 +175,12 @@ var store = new Ext.data.JsonStore({
     itemSelector: '.x-list-item',
     
     /**
+     * @cfg {String} itemCls An additional class that will be added to each item in the List.
+     * Defaults to ''.
+     */
+    itemCls: '',
+    
+    /**
      * @cfg {String/Array} itemTpl
      * The inner portion of the item template to be rendered. Follows an XTemplate
      * structure and will be placed inside of a tpl for in the tpl configuration.
@@ -220,9 +226,6 @@ var store = new Ext.data.JsonStore({
             this.onItemDisclosure = this.disclosure;
         }
         //</deprecated>
-        
-        
-        
         
         var memberFnsCombo = {};
         //<deprecated since=0.99>
@@ -274,7 +277,7 @@ var store = new Ext.data.JsonStore({
         }
         //</debug>
         
-        this.tpl = '<tpl for="."><div class="x-list-item"><div class="x-list-item-body">' + this.itemTpl + '</div>';
+        this.tpl = '<tpl for="."><div class="x-list-item ' + this.itemCls + '"><div class="x-list-item-body">' + this.itemTpl + '</div>';
         if (this.onItemDisclosure) {
             this.tpl += '<div class="x-list-disclosure"></div>';
         }
@@ -305,6 +308,10 @@ var store = new Ext.data.JsonStore({
             };
         }
 
+        // if (this.enableAutoPaging) {
+        //     this.enablePaging = true;
+        // }
+        
         Ext.List.superclass.initComponent.call(this);
 
         if (this.onItemDisclosure) {
@@ -320,7 +327,7 @@ var store = new Ext.data.JsonStore({
 
         this.on('deactivate', this.onDeactivate, this);
         
-         this.addEvents(
+        this.addEvents(
              /**
               * @event disclose
               * Fires when the user taps the disclosure icon on an item
@@ -329,7 +336,14 @@ var store = new Ext.data.JsonStore({
               * @param {Number} index The index of this list item
               * @param {Ext.util.Event} e The tap event that caused this disclose to fire
               */
-             'disclose'
+             'disclose',
+             
+             /**
+              * @event update
+              * Fires whenever the contents of the List is updated.
+              * @param {Ext.List} list This list
+              */
+             'update'
          );
     },
 
@@ -346,7 +360,7 @@ var store = new Ext.data.JsonStore({
                 });                
             }
         }
-
+        
         Ext.List.superclass.onRender.apply(this, arguments);
     },
 
@@ -468,14 +482,19 @@ var store = new Ext.data.JsonStore({
 
     updateIndexes : function() {
         Ext.List.superclass.updateIndexes.apply(this, arguments);
-        this.updateOffsets();
+        this.updateList();
     },
 
     afterComponentLayout : function() {
         Ext.List.superclass.afterComponentLayout.apply(this, arguments);
-        this.updateOffsets();
+        this.updateList();
     },
 
+    updateList : function() {
+        this.fireEvent('update', this);
+        this.updateOffsets();
+    },
+    
     updateOffsets : function() {
         if (this.grouped) {
             this.groupOffsets = [];
@@ -486,7 +505,7 @@ var store = new Ext.data.JsonStore({
 
             for (i = 0; i < ln; i++) {
                 header = Ext.get(headers[i]);
-                header.setDisplayMode(Ext.Element.VISIBILITY);
+                header.setVisibilityMode(Ext.Element.VISIBILITY);
                 this.groupOffsets.push({
                     header: header,
                     offset: header.dom.offsetTop
@@ -562,7 +581,7 @@ var store = new Ext.data.JsonStore({
             this.scroller.scrollTo({x: 0, y: closest.getOffsetsTo(this.scrollEl)[1]}, false, null, true);
         }
     },
-
+    
     getGroupId : function(group) {
         return group.name.toLowerCase();
     },

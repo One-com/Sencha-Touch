@@ -20,7 +20,7 @@ Ext.LoadMask = Ext.extend(Ext.util.Observable, {
      * Optional Store to which the mask is bound. The mask is displayed when a load request is issued, and
      * hidden on either load sucess, or load fail.
      */
-     
+
     /**
      * @cfg {String} msg
      * The text to display in a centered loading message box (defaults to 'Loading...')
@@ -37,16 +37,16 @@ Ext.LoadMask = Ext.extend(Ext.util.Observable, {
      * @type Boolean
      */
     disabled: false,
-    
+
     constructor : function(el, config) {
         this.el = Ext.get(el);
         Ext.apply(this, config);
-        
+
         this.addEvents('show', 'hide');
         if (this.store) {
             this.bindStore(this.store, true);
         }
-        Ext.LoadMask.superclass.constructor.call(this);        
+        Ext.LoadMask.superclass.constructor.call(this);
     },
 
     /**
@@ -73,7 +73,7 @@ Ext.LoadMask = Ext.extend(Ext.util.Observable, {
                 load: this.onLoad,
                 exception: this.onLoad
             });
-            
+
         }
         this.store = store;
         if (store && store.isLoading()) {
@@ -102,7 +102,7 @@ Ext.LoadMask = Ext.extend(Ext.util.Observable, {
     isDisabled : function() {
         return this.disabled;
     },
-    
+
     // private
     onLoad : function() {
         this.el.unmask();
@@ -112,7 +112,7 @@ Ext.LoadMask = Ext.extend(Ext.util.Observable, {
     // private
     onBeforeLoad : function() {
         if (!this.disabled) {
-            this.el.mask('<div class="x-loading-spinner"><span class="x-loading-top"></span><span class="x-loading-right"></span><span class="x-loading-bottom"></span><span class="x-loading-left"></span></div><div class="x-loading-msg">' + this.msg + '</div>', this.msgCls, false);
+            this.el.mask(Ext.LoadingSpinner + '<div class="x-loading-msg">' + this.msg + '</div>', this.msgCls, false);
             this.fireEvent('show', this, this.el, this.store);
         }
     },
@@ -137,3 +137,5 @@ Ext.LoadMask = Ext.extend(Ext.util.Observable, {
         this.clearListeners();
     }
 });
+
+Ext.LoadingSpinner = '<div class="x-loading-spinner"><span class="x-loading-top"></span><span class="x-loading-right"></span><span class="x-loading-bottom"></span><span class="x-loading-left"></span></div>';

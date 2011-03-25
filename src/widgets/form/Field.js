@@ -205,7 +205,7 @@ Ext.form.Field = Ext.extend(Ext.Component,  {
         if (this.fieldEl) {
             if (this.useMask && this.mask) {
                 this.mon(this.mask, {
-                    tap: this.onMaskTap,
+                    click: this.onMaskTap,
                     scope: this
                 });
             }
@@ -295,12 +295,12 @@ Ext.form.Field = Ext.extend(Ext.Component,  {
             return false;
         }
 
-        if (Ext.is.iOS && e.browserEvent && !e.browserEvent.isSimulated && !e.browserEvent.isSimulated) {
-            console.log('onMaskTap prevented');
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
-        }
+//        if (Ext.is.iOS && e.browserEvent && !e.browserEvent.isSimulated) {
+//            console.log('onMaskTap prevented');
+//            e.preventDefault();
+//            e.stopPropagation();
+//            return false;
+//        }
 
         return true;
     },

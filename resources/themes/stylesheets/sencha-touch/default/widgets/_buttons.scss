@@ -4,22 +4,76 @@
 
 @import '../global';
 
+/**
+ * @global {measurement} $button-height Default height for buttons.
+ *
+ * @class Ext.Button
+ * @xtype button
+ */
 $button-height: 1.8em;
+
+/**
+ * @global {measurement} $button-radius Default border-radius for buttons.
+ *
+ * @class Ext.Button
+ * @xtype button
+ */
 $button-radius: .4em !default;
+
+/**
+ * @global {measurement} $button-stroke-weight Default border width for buttons.
+ *
+ * @class Ext.Button
+ * @xtype button
+ */
 $button-stroke-weight: .1em !default;
+
+/**
+ * @global {string} $button-gradient Default gradient for buttons.
+ *
+ * @class Ext.Button
+ * @xtype button
+ * @see background-gradient
+ */
 $button-gradient: $base-gradient !default;
 
+/**
+ * @global {string} $toolbar-icon-size Default size (width and height) for toolbar icons.
+ *
+ * @class Ext.Button
+ * @xtype button
+ */
 $toolbar-icon-size: 1.4em !default;
 
+/**
+ * @global {boolean} $include-button-uis Optionally disable separate button UIs, including action, confirm, and decline.
+ *
+ * @class Ext.Button
+ * @xtype button
+ */
 $include-button-uis: $include-default-uis !default;
+
+/**
+ * @global {boolean} $include-button-uis Optionally disable special CSS3 effects on buttons including gradients, text-shadows, and box-shadows.
+ *
+ * @class Ext.Button
+ * @xtype button
+ */
 $include-button-highlights: $include-highlights !default;
 
+
+/**
+ * Includes default button styles.
+ *
+ * @class Ext.Button
+ * @xtype button
+ * @see background-gradient
+ */
 @mixin sencha-buttons {
-  
   // Basic button style
   .x-button {
     @include background-clip(padding-box);
-    @include border-radius($button-radius);
+    @if $include-border-radius { @include border-radius($button-radius); }
     @include display-box;
     @include box-align(center);
     @include toolbar-button(#ccc, $button-gradient);
@@ -27,7 +81,7 @@ $include-button-highlights: $include-highlights !default;
     padding: .3em .6em;
     position: relative;
     overflow: hidden;
-    
+
     // Default icon style
     img {
       width: 2.1em;
@@ -42,22 +96,22 @@ $include-button-highlights: $include-highlights !default;
         -webkit-mask-size: 1.3em;
       }
     }
-    
+
     &.x-item-disabled .x-button-label, &.x-item-disabled img {
       opacity: .5;
     }
   }
-  
+
   .x-button-round {
-    @include border-radius($button-height/2);
+    @if $include-border-radius { @include border-radius($button-height/2); }
     padding: .1em $button-height/2;
   }
 
   .x-button-small, .x-toolbar .x-button-small {
-    @include border-radius(.3em);
+    @if $include-border-radius { @include border-radius(.3em); }
     padding: .2em .4em;
     min-height: 0;
-    
+
     .x-button-label {
       font-size: .6em;
     }
@@ -67,7 +121,7 @@ $include-button-highlights: $include-highlights !default;
       height: .75em;
     }
   }
-  
+
   // Button icon alignment
   .x-iconalign-left, .x-icon-align-right {
     @include box-orient(horizontal);
@@ -88,7 +142,7 @@ $include-button-highlights: $include-highlights !default;
   .x-iconalign-right .x-button-label {
     margin-right: $toolbar-spacing * 1.5;
   }
-  
+
   // Button labels
   .x-button-label {
     @include box-flex(1);
@@ -101,7 +155,7 @@ $include-button-highlights: $include-highlights !default;
     display: block;
     overflow: hidden;
   }
-  
+
   // Toolbar button styling
   .x-toolbar .x-button {
     margin: 0 .2em;
@@ -111,7 +165,7 @@ $include-button-highlights: $include-highlights !default;
       font-size: .7em;
     }
   }
-  
+
   // Back/Forward buttons
   $shadow-width: .065em; // Space between tip and its shadow
   $overlap-width: .2em; // how far the mask is clipped
@@ -121,7 +175,7 @@ $include-button-highlights: $include-highlights !default;
   $mask-width: $mask-height/2.33;
 
   $mask-offset: $button-radius - $overlap-width - $button-stroke-weight + $shadow-width - .02em;
-  
+
   $tip-width: $mask-width - $mask-offset + $shadow-width;
 
   .x-button-forward, .x-button-back {
@@ -139,7 +193,7 @@ $include-button-highlights: $include-highlights !default;
   }
 
   .x-button-back, .x-toolbar .x-button-back {
-    margin-left: $tip-width + $toolbar-spacing;
+    margin-left: $tip-width - $shadow-width + $toolbar-spacing;
     padding-left: .4em;
     &:before {
       left: - $tip-width;
@@ -150,7 +204,7 @@ $include-button-highlights: $include-highlights !default;
   }
 
   .x-button-forward, .x-toolbar .x-button-forward {
-    margin-right: $tip-width - $shadow-width + $toolbar-spacing;      
+    margin-right: $tip-width - $shadow-width + $toolbar-spacing;
     padding-right: .4em;
     &:before, &:after {
       -webkit-mask: -$mask-offset 0 theme_image($theme-name, "tip_right.png") no-repeat;
@@ -169,56 +223,54 @@ $include-button-highlights: $include-highlights !default;
     background: none;
     border: 0 none;
     @include box-shadow(none);
-    @include border-radius(none);
+    @if $include-border-radius { @include border-radius(none); }
     min-height: 0;
     text-shadow: none;
     height: auto;
     line-height: auto;
-  
+
     margin: -1.5em -.5em;
     padding: 1.3em 1em;
     height: 1.8em;
-  
+
     & > * {
       overflow: visible;
       margin-top: -.75em;
     }
-  
+
     img {
       -webkit-mask-size: $toolbar-icon-size;
       width: $toolbar-icon-size;
       height: $toolbar-icon-size;
     }
-  
+
     &.x-button-pressed {
       background: none;
       -webkit-box-shadow: none;
 
-      &.x-button-pressed {
-        $mask-radial-glow: lighten($active-color, 50%);
-        @include radial-gradient(color-stops(fade-out($mask-radial-glow, .3), fade-out($mask-radial-glow, 1) 24px));
-        img {
-          @include background-gradient(lighten($base-color, 50%), 'recessed');
-        }
+      $mask-radial-glow: lighten($active-color, 50%);
+      @include background-image(radial-gradient(fade-out($mask-radial-glow, .3), fade-out($mask-radial-glow, 1) 24px));
+      img {
+        @include background-gradient(#fff, 'recessed');
       }
     }
   }
-  
+
   // SegmentedButtons
   .x-segmentedbutton .x-button {
-    @include border-radius(0);
+    @if $include-border-radius { @include border-radius(0); }
     margin: 0;
     &:first-child {
-      @include border-left-radius($button-radius);
+      @if $include-border-radius { @include border-left-radius($button-radius); }
     }
     &:last-child {
-      @include border-right-radius($button-radius);
+      @if $include-border-radius { @include border-right-radius($button-radius); }
     }
     &:not(:first-child) {
       border-left: 0;
     }
   }
-  
+
   // Badges
   $badge-size: 2em !default;
   $badge-bg-color: darken($alert-color, 20%) !default;
@@ -228,7 +280,7 @@ $include-button-highlights: $include-highlights !default;
     overflow: visible;
     .x-badge {
       @extend .x-button-label;
-      @include border-radius($badge-size/2);
+      @if $include-border-radius { @include border-radius($badge-size/2); }
       @include background-clip(padding-box);
       padding: .15em .25em;
       z-index: 30;
@@ -253,7 +305,7 @@ $include-button-highlights: $include-highlights !default;
       display: inline-block;
     }
   }
-  
+
   @if $include-default-icons {
     @include pictos-iconmask('action');
     @include pictos-iconmask('add');
@@ -274,7 +326,7 @@ $include-button-highlights: $include-highlights !default;
     @include pictos-iconmask('locate');
     @include pictos-iconmask('home');
   }
-  
+
   @if $include-button-uis {
     @include sencha-button-ui('action', $active-color);
     @include sencha-button-ui('confirm', desaturate(darken($confirm-color, 10%), 5%));
@@ -282,15 +334,35 @@ $include-button-highlights: $include-highlights !default;
   }
 }
 
+
+/**
+ * Creates a theme UI for buttons.
+ * Also automatically generates UIs for {ui-label}-round and {ui-label}-small.
+ *
+ * @param {string} $ui-label The name of the UI being created.
+ *   Can not included spaces or special punctuation (used in class names)
+ * @param {color} $color Base color for the UI.
+ * @param {string} [$gradient: $button-gradient] Default gradient for the UI.
+ *
+ * @example
+ * // SCSS
+ * @include sencha-button-ui('secondary', #99A4AE, 'glossy');
+ * 
+ * // JS
+ * var cancelBtn = new Ext.Button({text: 'Cancel', ui: 'secondary'});
+ * 
+ * @class Ext.Button
+ * @xtype button
+ */
 @mixin sencha-button-ui($ui-label, $color, $gradient: $button-gradient) {
   .x-button.x-button-#{$ui-label}, .x-button.x-button-#{$ui-label}-round, .x-button.x-button-#{$ui-label}-small {
     @include toolbar-button($color, $gradient);
   }
-  
+
   .x-button.x-button-#{$ui-label}-round {
     @extend .x-button-round;
   }
-  
+
   .x-button.x-button-#{$ui-label}-small {
     @extend .x-button-small;
   }

@@ -20,7 +20,7 @@ Ext.gesture.Swipe = Ext.extend(Ext.gesture.Gesture, {
 
         // If the swipeTime is over, we are not gonna check for it again
         if (absDeltaY - absDeltaX > 3 || deltaTime > this.swipeTime) {
-            this.unlock('scroll', 'scrollstart', 'scrollend');
+            this.unlock('drag', 'dragstart', 'dragend');
             this.stop();
         }
         else if (absDeltaX > this.swipeThreshold && absDeltaX > absDeltaY) {

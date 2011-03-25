@@ -4,23 +4,23 @@
  *
  * <p>A date picker component which shows a DatePicker on the screen. This class extends from {@link Ext.Picker} and {@link Ext.Sheet} so it is a popup.</p>
  * <p>This component has no required properties.</p>
- * 
+ *
  * <h2>Useful Properties</h2>
  * <ul class="list">
  *   <li>{@link #yearFrom}</li>
  *   <li>{@link #yearTo}</li>
  * </ul>
- * 
+ *
  * <h2>Screenshot:</h2>
   * <p><img src="doc_resources/Ext.DatePicker/screenshot.png" /></p>
- * 
+ *
  * <h2>Example code:</h2>
- * 
+ *
  * <pre><code>
 var datePicker = new Ext.DatePicker();
 datePicker.show();
  * </code></pre>
- * 
+ *
  * <p>you may want to adjust the {@link #yearFrom} and {@link #yearTo} properties:
  * <pre><code>
 var datePicker = new Ext.DatePicker({
@@ -29,7 +29,7 @@ var datePicker = new Ext.DatePicker({
 });
 datePicker.show();
  * </code></pre>
- * 
+ *
  * @constructor
  * Create a new List
  * @param {Object} config The config object
@@ -65,17 +65,17 @@ Ext.DatePicker = Ext.extend(Ext.Picker, {
      * The label to show for the year column. Defaults to 'Year'.
      */
     yearText: 'Year',
-    
+
     /**
      * @cfg {Object/Date} value
-     * Default value for the field and the internal {@link Ext.DatePicker} component. Accepts an object of 'year', 
+     * Default value for the field and the internal {@link Ext.DatePicker} component. Accepts an object of 'year',
      * 'month' and 'day' values, all of which should be numbers, or a {@link Date}.
-     * 
+     *
      * Examples:
-     * {year: 1989, day: 1, month: 5} = 1st May 1989. 
+     * {year: 1989, day: 1, month: 5} = 1st May 1989.
      * new Date() = current date
      */
-    
+
     /**
      * @cfg {Array} slotOrder
      * An array of strings that specifies the order of the slots. Defaults to <tt>['month', 'day', 'year']</tt>.
@@ -122,7 +122,7 @@ Ext.DatePicker = Ext.extend(Ext.Picker, {
         }
 
         this.slots = [];
-        
+
         this.slotOrder.forEach(function(item){
             this.slots.push(this.createSlot(item, days, months, years));
         }, this);
@@ -132,10 +132,10 @@ Ext.DatePicker = Ext.extend(Ext.Picker, {
 
     afterRender: function() {
         Ext.DatePicker.superclass.afterRender.apply(this, arguments);
-        
+
         this.setValue(this.value);
     },
-    
+
     createSlot: function(name, days, months, years){
         switch (name) {
             case 'year':

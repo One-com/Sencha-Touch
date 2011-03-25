@@ -42,7 +42,7 @@ Ext.form.DatePicker = Ext.extend(Ext.form.Field, {
              * @param {Ext.form.DatePicker} this
              * @param {Date} date The new date
              */
-            'select'
+            'change'
         );
 
         this.tabIndex = -1;
@@ -95,7 +95,7 @@ Ext.form.DatePicker = Ext.extend(Ext.form.Field, {
      */
     onPickerChange : function(picker, value) {
         this.setValue(value);
-        this.fireEvent('select', this, this.getValue());
+        this.fireEvent('change', this, this.getValue());
     },
     
     /**

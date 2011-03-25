@@ -312,15 +312,28 @@ Ext.data.AjaxProxy = Ext.extend(Ext.data.ServerProxy, {
         
         return function(options, success, response) {
             if (success === true) {
-                var reader = me.getReader(),
-                    result = reader.read(response);
+                var reader  = me.getReader(),
+                    result  = reader.read(response),
+                    records = result.records,
+                    length  = records.length,
+                    mc      = new Ext.util.MixedCollection(true, function(r) {return r.getId();}),
+                    record, i;
+                
+                mc.addAll(operation.records);
+                for (i = 0; i < length; i++) {
+                    record = mc.get(records[i].getId());
+                    
+                    if (record) {
+                        record.set(record.data);
+                    }
+                }
 
                 //see comment in buildRequest for why we include the response object here
                 Ext.apply(operation, {
                     response : response,
                     resultSet: result
                 });
-
+                
                 operation.setCompleted();
                 operation.setSuccessful();
             } else {

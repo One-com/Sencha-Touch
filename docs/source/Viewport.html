@@ -76,7 +76,12 @@ Ext.Viewport = new (Ext.extend(Ext.util.Observable, {
 
     scrollToTop: function() {
         if (Ext.is.iOS) {
-            document.body.scrollTop = document.body.scrollHeight;
+            if (Ext.is.Phone) {
+                document.body.scrollTop = document.body.scrollHeight;
+            }
+        }
+        else if (Ext.is.Blackberry) {
+            window.scrollTo(0, 1000);
         }
         else {
             window.scrollTo(0, 1);
@@ -102,6 +107,20 @@ Ext.Viewport = new (Ext.extend(Ext.util.Observable, {
         var me = this,
             body = Ext.getBody();
 
+        if (!Ext.is.Phone) {
+            body.setHeight(body.getWidth());
+
+            this.updateOrientation();
+
+            this.fireEvent('orientationchange', this, this.orientation);
+            me.scrollToTop();
+            me.updateBodySize();
+            me.fireResizeEvent();
+            Ext.repaint();
+
+            return;
+        }
+
         Ext.gesture.Manager.freeze();
 
         body.setHeight(body.getWidth());
@@ -112,11 +131,14 @@ Ext.Viewport = new (Ext.extend(Ext.util.Observable, {
 
         setTimeout(function() {
             me.scrollToTop();
+
             setTimeout(function() {
                 me.updateBodySize();
                 me.fireResizeEvent();
 
                 Ext.gesture.Manager.thaw();
+
+                Ext.repaint();
             }, 200);
         }, 200);
     },
@@ -195,6 +217,7 @@ Ext.Viewport = new (Ext.extend(Ext.util.Observable, {
 
     }
 
-}));</pre>    
+}));
+</pre>    
 </body>
 </html>

@@ -305,11 +305,11 @@ failure: function(response, opts) {
      */
     abort : function(r) {
         if (r && this.isLoading(r)) {
+            if (!request.timedout) {
+                request.aborted = true;
+            }
+            // Will fire an onreadystatechange event
             r.xhr.abort();
-            clearTimeout(r.timeout);
-            delete(r.timeout);
-            r.aborted = true;
-            this.onComplete(r);
         }
         else if (!r) {
             var id;

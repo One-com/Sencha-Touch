@@ -79,7 +79,7 @@ Ext.form.Checkbox = Ext.extend(Ext.form.Field, {
                 e = e.browserEvent;
             }
 
-            if (!e.isSimulated) {
+            if (Ext.supports.Touch && !e.isSimulated) {
                 e.preventDefault();
                 e.stopPropagation();
                 return;

@@ -39,7 +39,7 @@ Ext.form.Slider = Ext.extend(Ext.form.Field, {
      * @cfg {String} inputCls Overrides {@link Ext.form.Field}'s inputCls. Defaults to 'x-slider'
      */
     inputCls: 'x-slider',
-    
+
     inputType: 'slider',
 
     /**
@@ -61,7 +61,7 @@ Ext.form.Slider = Ext.extend(Ext.form.Field, {
      * @cfg {Number} value The value to initialize the thumb at (defaults to 0)
      */
     value: 0,
-    
+
     /**
      * @private
      * @cfg {Number} trackWidth The current track width. Used when the field is hidden so setValue will continue to work (needs
@@ -70,7 +70,7 @@ Ext.form.Slider = Ext.extend(Ext.form.Field, {
     trackWidth: null,
 
     monitorOrientation: true,
-     
+
     renderTpl: [
         '<tpl if="label">',
             '<div class="x-form-label"><span>{label}</span></div>',
@@ -154,7 +154,7 @@ Ext.form.Slider = Ext.extend(Ext.form.Field, {
         }
 
         this.increment = Math.abs(this.increment);
-        
+
         //TODO: This will be removed once multi-thumb support is in place - at that point a 'values' config will be accepted
         //to create the multiple thumbs
         this.values = [this.value];
@@ -198,12 +198,15 @@ Ext.form.Slider = Ext.extend(Ext.form.Field, {
 
     onOrientationChange: function() {
         Ext.form.Slider.superclass.onOrientationChange.apply(this, arguments);
-        
-        var thumb = this.getThumb();
+
+        var me = this,
+            thumb = this.getThumb();
 
         if (thumb.dragObj) {
-            thumb.dragObj.updateBoundary();
-            this.moveThumb(thumb, this.getPixelValue(thumb.getValue(), thumb), 0);
+            setTimeout(function() {
+                thumb.dragObj.updateBoundary();
+                me.moveThumb(thumb, me.getPixelValue(thumb.getValue(), thumb), 0);
+            }, 100);
         }
     },
 
@@ -225,7 +228,7 @@ Ext.form.Slider = Ext.extend(Ext.form.Field, {
         }
 
         moveThumb = !!moveThumb;
-        
+
         //TODO: this should accept a second argument referencing which thumb to move
         var thumb    = this.getThumb(),
             oldValue = thumb.getValue(),
@@ -235,7 +238,7 @@ Ext.form.Slider = Ext.extend(Ext.form.Field, {
             if (moveThumb) {
                 this.moveThumb(thumb, this.getPixelValue(newValue, thumb), animationDuration);
             }
-            
+
             thumb.setValue(newValue);
             this.doComponentLayout();
 
@@ -395,7 +398,7 @@ Ext.form.Slider = Ext.extend(Ext.form.Field, {
     // inherit docs
     afterRender: function(ct) {
         var me = this;
-        
+
         me.renderThumbs();
 
         Ext.form.Slider.superclass.afterRender.apply(me, arguments);
@@ -416,7 +419,7 @@ Ext.form.Slider = Ext.extend(Ext.form.Field, {
         //TODO: Implemented this way to enable multi-thumb support later
         return this.thumbs[0];
     },
-    
+
     /**
      * @private
      * Loops through each of the sliders {@link #thumbs} and calls disable/enable on each of them depending
@@ -432,7 +435,7 @@ Ext.form.Slider = Ext.extend(Ext.form.Field, {
             thumbs[i].dragObj[disable ? 'disable' : 'enable']();
         }
     },
-    
+
     /**
      * Disables the slider by calling the internal {@link #setThumbsDisabled} method
      */
@@ -440,7 +443,7 @@ Ext.form.Slider = Ext.extend(Ext.form.Field, {
         Ext.form.Slider.superclass.disable.call(this);
         this.setThumbsDisabled(true);
     },
-    
+
     /**
      * Enables the slider by calling the internal {@link #setThumbsDisabled} method.
      */

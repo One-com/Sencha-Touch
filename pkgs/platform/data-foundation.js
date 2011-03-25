@@ -415,9 +415,7 @@ Ext.data.Model = Ext.extend(Ext.util.Stateful, {
     phantom : false,
     
     /**
-     * The name of the field treated as this Model's unique id (defaults to 'id').
-     * @property idProperty
-     * @type String
+     * @cfg {String} idProperty The name of the field treated as this Model's unique id (defaults to 'id').
      */
     idProperty: 'id',
     
@@ -6789,15 +6787,28 @@ Ext.data.AjaxProxy = Ext.extend(Ext.data.ServerProxy, {
         
         return function(options, success, response) {
             if (success === true) {
-                var reader = me.getReader(),
-                    result = reader.read(response);
+                var reader  = me.getReader(),
+                    result  = reader.read(response),
+                    records = result.records,
+                    length  = records.length,
+                    mc      = new Ext.util.MixedCollection(true, function(r) {return r.getId();}),
+                    record, i;
+                
+                mc.addAll(operation.records);
+                for (i = 0; i < length; i++) {
+                    record = mc.get(records[i].getId());
+                    
+                    if (record) {
+                        record.set(record.data);
+                    }
+                }
 
                 //see comment in buildRequest for why we include the response object here
                 Ext.apply(operation, {
                     response : response,
                     resultSet: result
                 });
-
+                
                 operation.setCompleted();
                 operation.setSuccessful();
             } else {
@@ -7755,7 +7766,7 @@ Ext.data.WebStorageProxy = Ext.extend(Ext.data.ClientProxy, {
                 }
             }
 
-            record = new Model(data);
+            record = new Model(data, id);
             record.phantom = false;
 
             this.cache[id] = record;
@@ -8293,11 +8304,11 @@ Ext.data.Reader = Ext.extend(Object, {
     read: function(response) {
         var data = response;
         
-        if (response) {
-            if (response.responseText) {
-                data = this.getResponseData(response);
-            }
-
+        if (response && response.responseText) {
+            data = this.getResponseData(response);
+        }
+        
+        if (data) {
             return this.readRecords(data);
         } else {
             return this.nullResultSet;

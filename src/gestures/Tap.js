@@ -98,9 +98,14 @@ Ext.gesture.Tap = Ext.extend(Ext.gesture.Gesture, {
     },
     
     getInfo : function(touch) {
+        var x = touch.pageX,
+            y = touch.pageY;
+            
         return {
-            pageX: touch.pageX,
-            pageY: touch.pageY
+            pageX: x,
+            pageY: y,
+            startX: x,
+            startY: y
         };
     },
     

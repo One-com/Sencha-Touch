@@ -223,6 +223,9 @@ Ext.NestedList = Ext.extend(Ext.Panel, {
      * This will only exist when useToolbar is true which
      * is the default.
      */
+    /**
+     * @cfg {Boolean} useToolbar True to show the header toolbar. Defaults to true.
+     */
     useToolbar: true,
 
     /**

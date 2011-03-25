@@ -6,7 +6,8 @@ demos.SheetsOverlays = new Ext.Panel({
     },
     defaults: {
         xtype: 'button',
-        cls: 'demobtn'
+        cls: 'demobtn',
+        ui: 'round'
     },
     items: [{
         text: 'Action Sheet',
@@ -22,7 +23,6 @@ demos.SheetsOverlays = new Ext.Panel({
                         handler : Ext.emptyFn
                     },{
                         text : 'Cancel',
-                        ui: 'confirm',
                         scope : this,
                         handler : function(){
                             this.actions.hide();
@@ -57,19 +57,16 @@ demos.SheetsOverlays = new Ext.Panel({
         }
     },{
         text: 'Alert',
-        ui: 'decline',
         handler: function() {
             Ext.Msg.alert('Title', 'The quick brown fox jumped over the lazy dog.', Ext.emptyFn);
         }
     },{
         text: 'Prompt',
-        ui: 'round',
         handler: function() {
             Ext.Msg.prompt("Welcome!", "What's your first name?", Ext.emptyFn);
         }
     },{
         text: 'Confirm',
-        ui: 'confirm-round',
         handler: function() {
             Ext.Msg.confirm("Confirmation", "Are you sure you want to do that?", Ext.emptyFn);
         }

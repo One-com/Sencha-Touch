@@ -142,7 +142,7 @@ Ext.Map = Ext.extend(Ext.Component, {
     // @private    
     onRender : function(container, position) {
         Ext.Map.superclass.onRender.apply(this, arguments);
-        this.el.setDisplayMode(Ext.Element.OFFSETS);        
+        this.el.setVisibilityMode(Ext.Element.OFFSETS);        
     },
     
      // @private

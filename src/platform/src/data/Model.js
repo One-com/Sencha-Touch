@@ -229,9 +229,7 @@ Ext.data.Model = Ext.extend(Ext.util.Stateful, {
     phantom : false,
     
     /**
-     * The name of the field treated as this Model's unique id (defaults to 'id').
-     * @property idProperty
-     * @type String
+     * @cfg {String} idProperty The name of the field treated as this Model's unique id (defaults to 'id').
      */
     idProperty: 'id',
     

@@ -52,9 +52,7 @@ Ext.MessageBox = Ext.extend(Ext.Sheet, {
      */
     exitAnimation: 'pop',
 
-
-// Not sure what good this does, so I just comment it out for now
-//    autoHeight      : true,
+    autoHeight      : true,
 
     /**
      * The default height in pixels of the message box's multiline textarea if displayed (defaults to 75)

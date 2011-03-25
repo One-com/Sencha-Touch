@@ -436,7 +436,7 @@ el.un('tap', this.handlerFn);
         return mode;
     },
 
-    setDisplayMode : function(mode) {
+    setVisibilityMode : function(mode) {
         El.data(this.dom, 'visibilityMode', mode);
         return this;
     }

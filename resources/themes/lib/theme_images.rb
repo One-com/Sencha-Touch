@@ -6,8 +6,7 @@ module SenchaTouch
           path = path.value
           images_path = File.join(File.dirname(__FILE__), "..", "images", theme.value)
           real_path = File.join(images_path, path)
-          url = "url('data:#{compute_mime_type(path,mime_type)};base64,#{data(real_path)}')"
-          Sass::Script::String.new(url)
+          inline_image_string(data(real_path), compute_mime_type(path, mime_type))
         end
       end
     end

@@ -170,6 +170,21 @@ Ext.DataView = Ext.extend(Ext.Component, {
             //</debug>
         }
         
+        this.addEvents(
+            /**
+             * @event beforerefresh
+             * Fires before the view is refreshed
+             * @param {Ext.DataView} this The DataView object
+             */
+            'beforerefresh',
+            /**
+             * @event refresh
+             * Fires when the view is refreshed
+             * @param {Ext.DataView} this The DataView object
+             */
+            'refresh'
+        );
+        
         this.addCmpEvents();
 
         this.store = Ext.StoreMgr.lookup(this.store)
@@ -238,6 +253,7 @@ Ext.DataView = Ext.extend(Ext.Component, {
             return;
         }
         
+        this.fireEvent('beforerefresh', this);
         var el = this.getTargetEl(),
             records = this.store.getRange();
 
@@ -253,7 +269,7 @@ Ext.DataView = Ext.extend(Ext.Component, {
             this.updateIndexes(0);
         }
         this.hasSkippedEmptyText = true;
-        this.fireEvent('refresh');
+        this.fireEvent('refresh', this);
     },
 
     /**

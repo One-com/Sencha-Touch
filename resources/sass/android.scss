@@ -1,18 +1,18 @@
 // Let's start with the basics
 $base-color: #333;
 $active-color: #ff8100;
-$base-gradient: 'none';
+$base-gradient: 'flat';
 
 // Buttons
-// $button-gradient: 'bevel';
+$button-gradient: 'bevel';
 
 // Lists
-$list_bg_color: #111;
-$list_color: #fff;
-$list_pressed_color: #000;
-$list_active_gradient: 'recessed';
-$list_header_bg_color: #999;
-$list_header_gradient: 'bevel';
+$list-bg-color: #eee;
+$list-color: #333;
+$list-pressed-color: #ddd;
+$list-active-gradient: 'recessed';
+$list-header-bg-color: #999;
+$list-header-gradient: 'bevel';
 
 // Tabs
 $tabs_dark_color: #000;
@@ -29,6 +29,8 @@ $tabs_dark_color: #000;
 @include sencha-carousel;
 @include sencha-indexbar;
 @include sencha-list;
+@include sencha-list-paging;
+@include sencha-list-pullrefresh;
 @include sencha-layout;
 @include sencha-form;
 @include sencha-msgbox;

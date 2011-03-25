@@ -45,8 +45,7 @@ Ext.setup({
             scroll: 'vertical',
             url   : 'postUser.php',
             standardSubmit : false,
-            items: [
-                {
+            items: [{
                     xtype: 'fieldset',
                     title: 'Personal Info',
                     instructions: 'Please enter the information above.',
@@ -136,9 +135,7 @@ Ext.setup({
                     defaults: { xtype: 'radiofield' },
                     items: [
                         { name : 'color', label: 'Red', value : 'red' },
-                        { name : 'color', label: 'Blue' , value : 'blue'},
-                        { name : 'color', label: 'Green' , checked : true, value : 'green'},
-                        { name : 'color', label: 'Purple' , value : 'purple'}
+                        { name : 'color', label: 'Green' , checked : true, value : 'green'}
                     ]
                 }, {
                     xtype: 'fieldset',
@@ -160,18 +157,18 @@ Ext.setup({
                         label: 'URL',
                         useClearIcon: true
                     }]
-                }, {
-                    xtype: 'fieldset',
-                    title: 'Single Select (in fieldset)',
-                    items: [{
-                        xtype: 'selectfield',
-                        name: 'options',
-                        options: [
-                            {text: 'This is just a big select',  value: '1'},
-                            {text: 'Another item', value: '2'}
-                        ]
-                    }]
-                }, {
+                },{
+	                xtype: 'fieldset',
+	                title: 'Single Select (in fieldset)',
+	                items: [{
+	                    xtype: 'selectfield',
+	                    name: 'options',
+	                    options: [
+	                        {text: 'This is just a big select with text that is overflowing',  value: '1'},
+	                        {text: 'Another item', value: '2'}
+	                    ]
+	                }]
+				}, {
                     xtype: 'fieldset',
                     title: 'Single Text (in fieldset)',
                     items: [{

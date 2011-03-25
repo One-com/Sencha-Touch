@@ -23,6 +23,8 @@ Ext.util.Draggable = Ext.extend(Ext.util.Observable, {
      */
     direction: 'both',
 
+    fps: Ext.is.Blackberry ? 25 : ((Ext.is.iOS || Ext.is.Desktop) ? 80 : 50),
+
     /**
      * @cfg {Element/Mixed} constrain Can be either a DOM element, an instance of Ext.Element, 'parent' or null for no constrain
      */
@@ -100,7 +102,7 @@ Ext.util.Draggable = Ext.extend(Ext.util.Observable, {
     /**
      * Whether or not to automatically re-calculate the Scroller's and its container's size on every
      * touchstart.
-     * Defaults to false
+     * Defaults to true
      * @type Boolean
      */
     updateBoundaryOnTouchStart: true,
@@ -151,7 +153,9 @@ Ext.util.Draggable = Ext.extend(Ext.util.Observable, {
              * @param {Ext.Draggable} this
              * @param {Ext.util.Offset} offset
              */
-            'offsetchange'
+            'offsetchange',
+
+            'offsetboundaryupdate'
         );
 
         Ext.util.Draggable.superclass.constructor.call(this, config);
@@ -301,7 +305,7 @@ Ext.util.Draggable = Ext.extend(Ext.util.Observable, {
         if (!(offset instanceof Ext.util.Offset)) {
             offset = Ext.util.Offset.fromObject(offset);
         }
-        
+
         offset.round();
 
         if (!this.offset.equals(offset)) {
@@ -359,8 +363,11 @@ Ext.util.Draggable = Ext.extend(Ext.util.Observable, {
      * @private
      */
     setStyleOffset: function(offset) {
-        this.getProxyEl().setLeft(offset.x);
-        this.getProxyEl().setTop(offset.y);
+        var el = this.getProxyEl();
+
+        el.dom.style.left = offset.x + 'px';
+        el.dom.style.top = offset.y + 'px';
+
         return this;
     },
 
@@ -374,6 +381,8 @@ Ext.util.Draggable = Ext.extend(Ext.util.Observable, {
      * @private
      */
     startAnimation: function(offset, animate) {
+        var me = this;
+
         this.stopAnimation();
 
         var currentTime = Date.now();
@@ -394,8 +403,16 @@ Ext.util.Draggable = Ext.extend(Ext.util.Observable, {
         });
 
         this.isAnimating = true;
-        this.animationTimer = Ext.defer(this.handleAnimationFrame, 0, this);
+
+        this.animationTimer = setInterval(function(){
+            me.handleAnimationFrame();
+        }, this.getFrameDuration());
         return this;
+    },
+
+    // @private
+    getFrameDuration: function() {
+        return 1000 / this.fps;
     },
 
     /**
@@ -404,7 +421,7 @@ Ext.util.Draggable = Ext.extend(Ext.util.Observable, {
      */
     stopAnimation: function() {
         if (this.isAnimating) {
-            clearTimeout(this.animationTimer);
+            clearInterval(this.animationTimer);
             this.isAnimating = false;
             this.setDragging(false);
         }
@@ -426,8 +443,6 @@ Ext.util.Draggable = Ext.extend(Ext.util.Observable, {
         newOffset.y = this.linearAnimation.y.getOffset();
 
         this.setOffset(newOffset);
-
-        this.animationTimer = Ext.defer(this.handleAnimationFrame, 10, this);
 
         if ((newOffset.x === this.linearAnimation.x.endOffset) && (newOffset.y === this.linearAnimation.y.endOffset)) {
             this.stopAnimation();
@@ -536,16 +551,18 @@ Ext.util.Draggable = Ext.extend(Ext.util.Observable, {
 
         this.offsetBoundary = offsetBoundary;
 
+        this.fireEvent('offsetboundaryupdate', this, this.offsetBoundary);
+
         var currentComputedOffset;
 
         if (this.useCssTransform) {
             currentComputedOffset = Ext.Element.getComputedTransformOffset(this.getProxyEl());
-        } else {
-            currentComputedOffset = new Ext.util.Offset(this.getProxyEl().getLeft(), this.getProxyEl().getTop());
-        }
+//        } else {
+//            currentComputedOffset = new Ext.util.Offset(this.getProxyEl().getLeft(), this.getProxyEl().getTop());
 
-        if(!this.offset.equals(currentComputedOffset) || init) {
-            this.setOffset(currentComputedOffset);
+            if (!this.offset.equals(currentComputedOffset) || init) {
+                this.setOffset(currentComputedOffset);
+            }
         }
 
         return this;
@@ -567,10 +584,6 @@ Ext.util.Draggable = Ext.extend(Ext.util.Observable, {
         }
 
         this.stopAnimation();
-
-        if (this.dragging) {
-            this.onDragEnd(e);
-        }
 
         this.setDragging(true);
         this.startTouchPoint = new Ext.util.Point(e.startX, e.startY);

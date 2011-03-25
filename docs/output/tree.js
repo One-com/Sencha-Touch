@@ -143,6 +143,10 @@
                 {"href":"output/Ext.lib.Panel.html","text":"Panel","id":"Ext.lib.Panel","isClass":true,"iconCls":"icon-cmp","cls":"cls","leaf":true}
 				]}
 				,
+                {"id":"pkg-Ext.plugins","text":"plugins","iconCls":"icon-pkg","cls":"package","singleClickExpand":true, children:[
+                {"href":"output/Ext.plugins.ListPagingPlugin.html","text":"ListPagingPlugin","id":"Ext.plugins.ListPagingPlugin","isClass":true,"iconCls":"icon-cls","cls":"cls","leaf":true}
+				]}
+				,
                 {"id":"pkg-Ext.util","text":"util","iconCls":"icon-pkg","cls":"package","singleClickExpand":true, children:[
                 {"href":"output/Ext.util.Date.html","text":"Date","id":"Ext.util.Date","isClass":true,"iconCls":"icon-static","cls":"cls","leaf":true}
 				,
@@ -179,6 +183,8 @@
                 {"href":"output/Ext.util.Point.html","text":"Point","id":"Ext.util.Point","isClass":true,"iconCls":"icon-cls","cls":"cls","leaf":true}
 				,
                 {"href":"output/Ext.util.Region.html","text":"Region","id":"Ext.util.Region","isClass":true,"iconCls":"icon-cls","cls":"cls","leaf":true}
+				,
+                {"href":"output/Ext.util.Router.html","text":"Router","id":"Ext.util.Router","isClass":true,"iconCls":"icon-cls","cls":"cls","leaf":true}
 				,
                 {"href":"output/Ext.util.ScrollView.html","text":"ScrollView","id":"Ext.util.ScrollView","isClass":true,"iconCls":"icon-cls","cls":"cls","leaf":true}
 				,
@@ -268,6 +274,8 @@
                 {"href":"output/Ext.Picker.html","text":"Picker","id":"Ext.Picker","isClass":true,"iconCls":"icon-cmp","cls":"cls","leaf":true}
 				,
                 {"href":"output/Ext.PluginMgr.html","text":"PluginMgr","id":"Ext.PluginMgr","isClass":true,"iconCls":"icon-static","cls":"cls","leaf":true}
+				,
+                {"href":"output/Ext.Router.html","text":"Router","id":"Ext.Router","isClass":true,"iconCls":"icon-static","cls":"cls","leaf":true}
 				,
                 {"href":"output/Ext.SegmentedButton.html","text":"SegmentedButton","id":"Ext.SegmentedButton","isClass":true,"iconCls":"icon-cmp","cls":"cls","leaf":true}
 				,
@@ -440,6 +448,8 @@
 			,
 			"Ext.lib.Panel":"icon-cmp"
 			,
+			"Ext.plugins.ListPagingPlugin":"icon-cls"
+			,
 			"Ext.util.Date":"icon-static"
 			,
 			"Ext.util.DelayedTask":"icon-cls"
@@ -475,6 +485,8 @@
 			"Ext.util.Point":"icon-cls"
 			,
 			"Ext.util.Region":"icon-cls"
+			,
+			"Ext.util.Router":"icon-cls"
 			,
 			"Ext.util.ScrollView":"icon-cls"
 			,
@@ -563,6 +575,8 @@
 			"Ext.Picker":"icon-cmp"
 			,
 			"Ext.PluginMgr":"icon-static"
+			,
+			"Ext.Router":"icon-static"
 			,
 			"Ext.SegmentedButton":"icon-cmp"
 			,

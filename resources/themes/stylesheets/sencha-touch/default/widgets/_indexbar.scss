@@ -1,9 +1,38 @@
 @import '../global';
 
+/**
+ * @global {measurement} [$index-bar-width=2.1em]
+ * Width of the index bar.
+ *
+ * @class Ext.IndexBar
+ * @xtype indexbar
+ */
 $index-bar-width: 2.1em !default;
-$index-bar-bg-color: rgba(lighten(desaturate($base-color, 5%), 5%), .8) !default;
+
+/**
+ * @global {color} [$index-bar-bg-color=hsla(hue($base-color), 10%, 60%, .8)]
+ * Background-color of the index bar.
+ *
+ * @class Ext.IndexBar
+ * @xtype indexbar
+ */
+$index-bar-bg-color: hsla(hue($base-color), 10%, 60%, .8) !default;
+
+/**
+ * @global {color} [$index-bar-color=darken(desaturate($base-color, 5%), 15%)]
+ * Text color of the index bar.
+ *
+ * @class Ext.IndexBar
+ * @xtype indexbar
+ */
 $index-bar-color: darken(desaturate($base-color, 5%), 15%) !default;
 
+/**
+ * Includes default index bar styles.
+ *
+ * @class Ext.FormPanel
+ * @xtype indexbar
+ */
 @mixin sencha-indexbar {
   .x-indexbar {
     padding: 0 .3em;

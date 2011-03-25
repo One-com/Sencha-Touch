@@ -55,7 +55,7 @@ if (Ext.is.Phone) {
         ]
     }, {
         items: [
-            { ui: 'decline', text: 'Drastic' },
+            { ui: 'decline', text: 'Decline' },
             { ui: 'decline-round', text: 'Round' },
             { ui: 'decline-small', text: 'Small' }
         ]

@@ -7,8 +7,6 @@ $experimental-support-for-opera: false;
 $experimental-support-for-microsoft: false;
 $experimental-support-for-khtml: false;
 
-$page-bg-color: #eee !default;
-
 html, body {
   font-family: "Helvetica Neue", HelveticaNeue, "Helvetica-Neue", Helvetica, "BBAlpha Sans", sans-serif;
   font-weight: normal;
@@ -23,15 +21,15 @@ html, body {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-.x-android {
-    input[type=checkbox], input[type=radio] {
-        -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
-    }
+/*.x-android {*/
+  /*input[type=checkbox], input[type=radio] {*/
+    /*-webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;*/
+  /*}*/
 
-    input, textarea {
-        -webkit-tap-highlight-color: rgba(0, 0, 0, 1) !important;
-    }
-}
+  /*input, textarea {*/
+    /*-webkit-tap-highlight-color: rgba(0, 0, 0, 1) !important;*/
+  /*}*/
+/*}*/
 
 html, body, .x-body-stretcher {
  width: 100%;
@@ -52,6 +50,10 @@ html, body, .x-body-stretcher {
 
 body {
   font-size: 104%;
+}
+
+body.x-ios {
+  -webkit-backface-visibility: hidden;
 }
 
 body.x-android.x-phone {
@@ -103,6 +105,10 @@ input, textarea {
   position: relative;
 }
 
+.x-ios .x-scroller, .x-ios .x-scroller > * {
+    -webkit-transform: translate3d(0, 0, 0);
+}
+
 .x-draggable {
   z-index: 1;
 }
@@ -110,9 +116,11 @@ input, textarea {
 .x-scrollbar {
   position: absolute;
   z-index: 10;
+  @if $include-border-radius {
   -webkit-transition-property: opacity;
   -webkit-transition-duration: 250ms;
   -webkit-border-radius: 4px;
+  }
   opacity: 0;
 }
 
@@ -153,17 +161,17 @@ input, textarea {
   @include box-align(center);
   @include box-pack(center);
   background: rgba(0,0,0,.3) center center no-repeat;
-  
+
   &.x-mask-gray {
     background-color: rgba(0, 0, 0, 0.5);
   }
-  
+
   .x-mask-loading {
     @include display-box;
     @include box-orient(vertical);
     @include box-align(center);
     @include box-pack(center);
-    @include border-radius(.5em);
+    @if $include-border-radius { @include border-radius(.5em); }
     color: #fff;
     text-align: center;
     padding: .4em;
@@ -173,7 +181,11 @@ input, textarea {
     height: 8.5em;
     background: rgba(0, 0, 0, .25);
   }
-  
+
+  .x-loading-spinner {
+    margin: 1em auto .2em;
+  }
+
   .x-loading-msg {
     font-size: .95em;
     @include bevel-text;

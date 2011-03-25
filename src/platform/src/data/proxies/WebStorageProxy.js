@@ -192,7 +192,7 @@ Ext.data.WebStorageProxy = Ext.extend(Ext.data.ClientProxy, {
                 }
             }
 
-            record = new Model(data);
+            record = new Model(data, id);
             record.phantom = false;
 
             this.cache[id] = record;

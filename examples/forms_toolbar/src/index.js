@@ -26,7 +26,7 @@ Ext.setup({
                     xtype: 'selectfield',
                     name: 'options',
                     options: [
-                        {text: 'Option 1',  value: '1'},
+                        {text: 'Option 1 should be very very very long',  value: '1'},
                         {text: 'Option 2', value: '2'}
                     ]
                 }]

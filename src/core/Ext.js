@@ -6,11 +6,11 @@ Ext.apply(Ext, {
      * The version of the framework
      * @type String
      */
-    version : '1.0.1',
+    version : '1.1.0',
     versionDetail : {
         major : 1,
-        minor : 0,
-        patch : 1
+        minor : 1,
+        patch : 0
     },
     
     /**
@@ -212,7 +212,6 @@ function(el){
         }
     }
 });
-
 
 //Initialize doc classes and feature detections
 (function() {

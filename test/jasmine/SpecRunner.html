@@ -4,17 +4,23 @@
     <head>
         <title>Jasmine Test Runner - Sencha Touch</title>
         <link rel="stylesheet" type="text/css" href="../../src/platform/test/jasmine/lib/reporter/resources/reporter.css">
-        
         <script type="text/javascript" src="../../src/platform/test/jasmine/lib/jasmine-1.0.1/jasmine.js"></script>
+                
         <script type="text/javascript" src="../../src/platform/test/jasmine/lib/jasmine-extensions/Browser.js"></script>
         <script type="text/javascript" src="../../src/platform/test/jasmine/lib/jasmine-extensions/CodeHighLighter.js"></script>
+        <script type="text/javascript" src="../../src/platform/test/jasmine/lib/jasmine-extensions/Dom.js"></script>
         <script type="text/javascript" src="../../src/platform/test/jasmine/lib/jasmine-extensions/Spec.js"></script>
+        <script type="text/javascript" src="../../src/platform/test/jasmine/lib/jasmine-extensions/DomSandbox.js"></script>
+        <script type="text/javascript" src="../../src/platform/test/jasmine/lib/jasmine-extensions/BadGlobals.js"></script>
         <script type="text/javascript" src="../../src/platform/test/jasmine/lib/jasmine-extensions/StringPrettyPrinter.js"></script>
+        <script type="text/javascript" src="../../src/platform/test/jasmine/lib/jasmine-extensions/Utils.js"></script>
+        <script type="text/javascript" src="../../src/platform/test/jasmine/lib/jasmine-extensions/panels/Namespace.js"></script>
+        <script type="text/javascript" src="../../src/platform/test/jasmine/lib/jasmine-extensions/panels/SpecBlocks.js"></script>
+        <script type="text/javascript" src="../../src/platform/test/jasmine/lib/jasmine-extensions/panels/SpecDomSandbox.js"></script>
+        <script type="text/javascript" src="../../src/platform/test/jasmine/lib/jasmine-extensions/panels/SpecInfos.js"></script>
+        <script type="text/javascript" src="../../src/platform/test/jasmine/lib/jasmine-extensions/panels/SpecStackTrace.js"></script>
+        <script type="text/javascript" src="../../src/platform/test/jasmine/lib/jasmine-extensions/panels/TabPanel.js"></script>
         <script type="text/javascript" src="../../src/platform/test/jasmine/lib/reporter/src/Reporter.js"></script>
-        <script type="text/javascript" src="../../src/platform/test/jasmine/lib/reporter/src/HTMLUtils.js"></script>
-        <script type="text/javascript" src="../../src/platform/test/jasmine/lib/reporter/src/BadGlobals.js"></script>
-        <script type="text/javascript" src="../../src/platform/test/jasmine/lib/reporter/src/DomSandbox.js"></script>
-        <script type="text/javascript" src="../../src/platform/test/jasmine/lib/reporter/src/StackTrace.js"></script>
 
         <!--
             Source files
@@ -30,9 +36,9 @@
         <script type="text/javascript" src="../../src/platform/src/util/AbstractManager.js"></script>
         <script type="text/javascript" src="../../src/platform/src/util/DelayedTask.js"></script>
         <script type="text/javascript" src="../../src/platform/src/util/GeoLocation.js"></script>
+        <script type="text/javascript" src="../../src/platform/src/util/Region.js"></script>
         <script type="text/javascript" src="../../src/platform/src/util/Point.js"></script>
         <script type="text/javascript" src="../../src/platform/src/util/Offset.js"></script>
-        <script type="text/javascript" src="../../src/platform/src/util/Region.js"></script>
         <script type="text/javascript" src="../../src/platform/src/util/Template.js"></script>
         <script type="text/javascript" src="../../src/platform/src/util/XTemplate.js"></script>
         <script type="text/javascript" src="../../src/platform/src/util/Sorter.js"></script>
@@ -290,6 +296,12 @@
         <script type="text/javascript" src="spec/widgets/form/Toggle.js"></script>
         <script type="text/javascript" src="spec/widgets/form/Url.js"></script>
 
+        <script type="text/javascript" src="spec/gestures/Manager.js"></script>
+        <script type="text/javascript" src="spec/gestures/Touch.js"></script>
+        <script type="text/javascript" src="spec/gestures/Tap.js"></script>
+        <script type="text/javascript" src="spec/gestures/Swipe.js"></script>
+        <script type="text/javascript" src="spec/gestures/Drag.js"></script>
+        
         <!-- Boot -->
         <script type="text/javascript">
                 var config = {};

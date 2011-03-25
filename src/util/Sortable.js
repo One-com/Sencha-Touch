@@ -148,14 +148,14 @@ Ext.util.Sortable = Ext.extend(Ext.util.Observable, {
         }
 
         this.el.addCls(this.baseCls);
-        //this.tapEvent = (this.delay > 0) ? 'taphold' : 'tapstart';
+        this.startEventName = (this.delay > 0) ? 'taphold' : 'tapstart';
         if (!this.disabled) {
             this.enable();
         }
     },
 
     // @private
-    onTouchStart : function(e, t) {
+    onStart : function(e, t) {
         if (this.cancelSelector && e.getTarget(this.cancelSelector)) {
             return;
         }
@@ -172,14 +172,13 @@ Ext.util.Sortable = Ext.extend(Ext.util.Observable, {
     onSortStart : function(e, t) {
         this.sorting = true;
         var draggable = new Ext.util.Draggable(t, {
-            delay: this.delay,
+            threshold: 0,
             revert: this.revert,
             direction: this.direction,
             constrain: this.constrain === true ? this.el : this.constrain,
             animationDuration: 100
         });
         draggable.on({
-            dragThreshold: 0,
             drag: this.onDrag,
             dragend: this.onDragEnd,
             scope: this
@@ -187,7 +186,7 @@ Ext.util.Sortable = Ext.extend(Ext.util.Observable, {
         
         this.dragEl = t;
         this.calculateBoxes();
-        
+
         if (!draggable.dragging) {
             draggable.onStart(e);
         }
@@ -272,7 +271,7 @@ Ext.util.Sortable = Ext.extend(Ext.util.Observable, {
      * the disabled configuration is set to true.
      */
     enable : function() {
-        this.el.on('touchstart', this.onTouchStart, this, {delegate: this.itemSelector});
+        this.el.on(this.startEventName, this.onStart, this, {delegate: this.itemSelector, holdThreshold: this.delay});
         this.disabled = false;
     },
 
@@ -280,7 +279,7 @@ Ext.util.Sortable = Ext.extend(Ext.util.Observable, {
      * Disables sorting for this Sortable.
      */
     disable : function() {
-        this.el.un('touchstart', this.onTouchStart, this);
+        this.el.un(this.startEventName, this.onStart, this);
         this.disabled = true;
     },
     

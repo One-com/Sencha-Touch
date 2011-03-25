@@ -52,7 +52,7 @@ Ext.gesture.Gesture = Ext.extend(Object, {
     },
     
     fire: function(type, e, args) {
-        var listeners = this.listeners[type],
+        var listeners = this.listeners && this.listeners[type],
             ln = listeners && listeners.length,
             i;
 

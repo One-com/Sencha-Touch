@@ -186,7 +186,7 @@ Ext.Sheet = Ext.extend(Ext.Panel, {
      // @private
     afterRender : function() {
         Ext.Sheet.superclass.afterRender.apply(this, arguments);
-        this.el.setDisplayMode(Ext.Element.OFFSETS);
+        this.el.setVisibilityMode(Ext.Element.OFFSETS);
     },
 
     // @private
